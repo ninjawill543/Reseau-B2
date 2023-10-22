@@ -31,6 +31,9 @@ m4ul@thinkpad:~$ ip a
 
 ☀️ **Déso pas déso**
 
+![](../images/wifi.gif)
+
+
 
 - l'adresse de réseau du LAN auquel vous êtes connectés en WiFi: `172.20.0.0`
 - l'adresse de broadcast: `172.20.255.255`
@@ -117,6 +120,9 @@ PING b2.hello.vous (1.1.1.1) 56(84) bytes of data.
 ---
 
 ☀️ **Go mater une vidéo youtube et déterminer, pendant qu'elle tourne...**
+
+![](../images/rick.gif)
+
 
 ```bash
 m4ul@thinkpad:~$ ss -tnp
@@ -206,14 +212,16 @@ m4ul@thinkpad:~$ curl https://ipinfo.io/ip ; echo
 
 ☀️ **Scan réseau**
 
-Déterminer...
-
-- combien il y a de machines dans le LAN auquel vous êtes connectés
-
-> Allez-y mollo, on va vite flood le réseau sinon. :)
+```bash
+m4ul@thinkpad:~$ sudo nmap -sn 10.33.64.0/20
+Nmap done: 4096 IP addresses (855 hosts up) scanned in 247.46 seconds
+```
 
 
 # III. Le requin
+
+![](../images/shark.gif)
+
 
 ---
 
