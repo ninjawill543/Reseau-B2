@@ -1,10 +1,11 @@
 from scapy.all import *
 
+
 ping = ICMP(type=8)
 
-packet = IP(src="10.33.72.7", dst="10.33.76.225")
+packet = IP(src="192.168.1.71", dst="192.168.1.254")
 
-frame = Ether(src="b0:3c:dc:ae:ab:6e", dst="d8:f3:bc:54:c7:8f")
+frame = Ether(src="b0:3c:dc:ae:ab:6e", dst="44:D4:54:7B:E1:4C")
 
 final_frame = frame/packet/ping
 
