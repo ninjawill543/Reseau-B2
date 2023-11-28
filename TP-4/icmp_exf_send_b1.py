@@ -1,7 +1,7 @@
 from scapy.all import IP, ICMP, send
 import sys
 
-start_value = "°°°1°°°"
+start_value = "111~111"
 start = (IP(dst=sys.argv[1])/ICMP()/start_value)
 send(start)
 
@@ -14,6 +14,6 @@ for i in list:
     send(packet)
 
 
-end_value = "°°°0°°°"
+end_value = "000~000"
 end = (IP(dst=sys.argv[1])/ICMP()/end_value)
 send(end)
