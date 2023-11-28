@@ -5,7 +5,7 @@ def print_it_please(packet):
         if (packet['Raw'].load.decode("utf-8") == "end"):
             quit()
         else:
-            print(packet['Raw'].load.decode("utf-8")
+            print(packet['Raw'].load.decode("utf-8"))
         
 sniff(filter="icmp", prn=print_it_please, count=0)
 
