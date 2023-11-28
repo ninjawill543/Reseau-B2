@@ -1,0 +1,10 @@
+from scapy.all import IP, ICMP, send
+import sys
+
+to_send = str(sys.argv[2])
+    
+list = ([to_send[i:i + 3] for i in range(0, len(to_send), 3)])
+
+for i in list:
+    packet = (IP(dst=sys.argv[1])/ICMP()/i)
+    send(packet)
