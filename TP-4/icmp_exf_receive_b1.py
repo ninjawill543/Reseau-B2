@@ -1,11 +1,13 @@
 from scapy.all import sniff, ICMP
 
+output = ""
 def print_it_please(packet):
     if (packet['ICMP'].type == 8 and len(packet['Raw'].load) <= 3):
         if (packet['Raw'].load.decode("utf-8") == "end"):
+            print(output)
             quit()
         else:
-            print(packet['Raw'].load.decode("utf-8"))
+            output = output + packet['Raw'].load.decode("utf-8")    
         
 sniff(filter="icmp", prn=print_it_please, count=0)
 
