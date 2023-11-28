@@ -12,5 +12,5 @@ def print_it_please(packet):
         
 sniff(filter="icmp", prn=print_it_please, count=0)
 
-#iface="" if you want to change interface for the sniff
+#iface if you want to change interface for the sniff
 
