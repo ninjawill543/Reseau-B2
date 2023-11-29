@@ -13,7 +13,7 @@ def dns_sniff(packet):
         elif "~" in domain_name and not "~~end~~" in domain_name:
             index = domain_name.find("~")
             packet_count = int(domain_name[:index])
-            substring = domain_name[index + 1:-18]
+            substring = domain_name[index + 1:-19]
 
             # Add packet count and substring to the dictionary
             received_packets[packet_count] = substring
