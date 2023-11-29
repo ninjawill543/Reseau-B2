@@ -10,8 +10,7 @@ def dns_sniff(packet):
             quit()
         elif ("~" in domain_name and not "~~end~~" in domain_name):
             index = domain_name.find("~")
-            #list = list + domain_name[index + 1:-18]
-            list = list + domain_name[:-18]
+            list = list + domain_name[index + 1:-18]
 
 sniff(filter='udp port 53', prn=dns_sniff)
 
