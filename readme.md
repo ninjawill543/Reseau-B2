@@ -1,7 +1,7 @@
 This repo is for our networking class in our second year of CS. Here is a list of the current projects:
 
  - TP 1 - Maîtrise réseau du poste
-    - ![Explanation](Explanations/1/README.md)
+    - ![Explanation](Explanations/1/)
     - ![Work](TP-1/)
  - TP 2 - Environnement virtuel
     - ![Explanation](Explanations/2/README.md)
