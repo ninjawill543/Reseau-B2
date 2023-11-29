@@ -6,6 +6,8 @@ def dns_sniff(packet):
     global received_packets
     if DNS in packet and packet.dport == 53 and packet[DNS].qr == 0:
         domain_name = packet[DNSQR].qname.decode('utf-8')
+        # Replace degree symbol with dot
+        domain_name = domain_name.replace('°', '.')
         print("Received Domain Name:", domain_name)
         if "~~end~~" in domain_name:
             sorted_packets = ''.join(value for key, value in sorted(received_packets.items()))
