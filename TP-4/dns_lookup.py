@@ -1,16 +1,14 @@
 from scapy.all import *
 
-frame = Ether(src="b0:3c:dc:ae:ab:6e", dst="44:D4:54:7B:E1:4C")
+def dns_query(query_domain, dns_server="1.1.1.1"):
+    dns_request = Ether()/IP(dst=dns_server)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname=query_domain))
+    answers, unanswered_packets = srp(dns_request, timeout=2, verbose=False)
 
-packet = IP(src="192.168.1.71", dst="192.168.1.254")
+    for packet in answers:
+        if DNSRR in packet[1] and packet[1][DNSRR].type == 1:
+            rdata = packet[1][DNSRR].rdata
+            print(rdata)
 
-UDP = UDP(sport=RandShort(), dport=53)
+domain_to_query = "ynov.com"
+dns_query(domain_to_query)
 
-dns = DNS(rd=1, qd=DNSQR(qname="ynov.com", qtype="A"))
-
-
-final_frame = frame/packet/UDP/dns
-
-answers, unanswered_packets = srp(final_frame, timeout=10)
-
-print(answers[0].answer[0].an.rdata)
