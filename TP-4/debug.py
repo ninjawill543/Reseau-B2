@@ -11,7 +11,8 @@ def dns_sniff(packet):
         print("Received Domain Name:", domain_name)
         if "~~end~~" in domain_name:
             sorted_packets = ''.join(value for key, value in sorted(received_packets.items()))
-            print("Final Result:", sorted_packets)
+            # Replace '°' with dot when printing the final result
+            print("Final Result:", sorted_packets.replace('°', '.'))
             quit()
         elif "~" in domain_name and not "~~end~~" in domain_name:
             index = domain_name.find("~")
