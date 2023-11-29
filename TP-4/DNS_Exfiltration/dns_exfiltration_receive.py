@@ -1,16 +1,20 @@
 from scapy.all import *
 
-list = ""
+unique_strings = set()
+
 def dns_sniff(packet):
-    global list
+    global unique_strings
     if DNS in packet and packet.dport == 53 and packet[DNS].qr == 0:
         domain_name = packet[DNSQR].qname.decode('utf-8')
-        if ("~~end~~" in domain_name):
-            print(list)
+        if "~~end~~" in domain_name:
+            unique_string = ''.join(unique_strings)
+            print(unique_string)
             quit()
-        elif ("~" in domain_name and not "~~end~~" in domain_name):
+        elif "~" in domain_name and not "~~end~~" in domain_name:
             index = domain_name.find("~")
-            list = list + domain_name[index + 1:-18]
+            substring = domain_name[index + 1:-18]
+            
+            unique_strings.add(substring)
 
 sniff(filter='udp port 53', prn=dns_sniff)
 
