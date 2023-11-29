@@ -8,7 +8,7 @@ def dns_sniff(packet):
         if ("~~end~~" in domain_name):
             print(list)
             quit()
-        elif ("~" in domain_name and "~~end~~" !in domain_name):
+        elif ("~" in domain_name and !"~~end~~" in domain_name):
             index = domain_name.find("~")
             list = list + domain_name[index + 1:-18]
 
