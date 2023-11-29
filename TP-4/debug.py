@@ -12,6 +12,9 @@ def dns_sniff(packet):
             print("Final Result:", sorted_packets)
             quit()
         elif "~" in domain_name and not "~~end~~" in domain_name:
+            # Replace consecutive dots with a single dot
+            domain_name = domain_name.replace('..', '.')
+
             index = domain_name.find("~")
             packet_count = int(domain_name[:index])
             substring = domain_name[index + 1:-18]
