@@ -134,7 +134,7 @@ while True:
                 
     except socket.error as e:
         print(f"Socket error occurred: {e}")
-        break
+        #break
 
 conn.close()
 
