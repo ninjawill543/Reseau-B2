@@ -113,16 +113,16 @@ while True:
         while True:
             # Receive data from the client
                 data = conn.recv(1024)
+                message = data.decode('utf-8')
 
                 pattern = r'^(-?\d{1,5})\s*([+*-])\s*(-?\d{1,5})$'
 
-                match= re.match(pattern, data)
+                match= re.match(pattern, message)
                 if match:
                     num1, operator, num2 = match.groups()
                     num1, num2 = int(num1), int(num2)
 
                 if -100000 <= num1 <= 100000 and -100000 <= num2 <= 100000:
-                    message = data.decode('utf-8')
                     logger.info("Le client %s a envoyé %s", addr, message)
                     result = eval(message)
                     messageServeur = str(result)
