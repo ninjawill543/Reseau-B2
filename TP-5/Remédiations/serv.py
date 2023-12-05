@@ -130,7 +130,6 @@ while True:
                     logger.info("Réponse envoyée au client %s : %s.", addr, messageServeur)
                 else:
                     print("Opération non autorisée")
-                    break
 
                 
     except socket.error as e:

