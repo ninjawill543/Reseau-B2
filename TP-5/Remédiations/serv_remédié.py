@@ -124,7 +124,7 @@ while True:
 
                 if -100000 <= num1 <= 100000 and -100000 <= num2 <= 100000:
                     logger.info("Le client %s a envoyé %s", addr, message)
-                    result = eval(str(message))
+                    result = eval(message)
                     messageServeur = str(result)
                     conn.sendall(messageServeur.encode())
                     logger.info("Réponse envoyée au client %s : %s.", addr, messageServeur)
