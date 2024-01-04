@@ -133,6 +133,12 @@ Le flag final est donc: `l1tter4lly_4_c4ptur3_th3_fl4g:heyheyhey`
 
 🌞 **Proposer une configuration pour empêcher votre attaque**
 
+Il y a plusieurs remédiations que nous pouvons mettre en place.
+
+D'abord, afin d'empêcher le MITM, nous pouvons mettre en place des entrées ARP statiques, ainsi qu'un `Dynamic ARP Inspection` qui évalue la validité de chaque paquet ARP.
+
+Afin d'empêcher un attaquant de retrouver le mot de passe, il faudrait interdire la connexion avec root quand la connexion ne vient pas du local host, il faudrait aussi utiliser un mot de passe plus secure, et il faudrait utiliser l'option `require_secure_transport` afin que toutes les connections soient chiffrées.
+
 
 ## IV. Bonus : Trafic Global System for Mobile communications
 
