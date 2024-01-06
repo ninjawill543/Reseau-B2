@@ -18,4 +18,7 @@ This repo is for our networking class in our second year of CS. Here is a list o
  - TP 6 - Un peu de root-me
     - ![Explanation](Explanations/6/)
     - ![Work](TP-6/)
+ - TP 7 - Accès réseau sécurisé
+    - ![Explanation](Explanations/7/)
+    - ![Work](TP-7/)
 
