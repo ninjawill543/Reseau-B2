@@ -17,6 +17,16 @@
 
 🌞 **Write-up de l'épreuve**
 
+### Pour ce chall, on nous présente un serveur qui va récupérer le contenu de l’URL qu’on lui envoie et nous l'afficher. On nous donne aussi le [code source](code_source.py) de la page.
+
+En lisant le code source, et en consultant la page web, nous avons plusieurs indices sur ce qu'il faut faire. 
+
+Il faut réussir à voir la page `http://challenge01.root-me.org:54022/admin` car elle contient le flag, le problème étant que la requete vers cette page doit venir de l'ip `127.0.0.1`, ou localhost.
+
+Nous savons aussi que la page web ne peut pas afficher des pages locales.
+
+
+
 🌞 **Proposer une version du code qui n'est pas vulnérable**
 
 
