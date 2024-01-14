@@ -17,7 +17,7 @@
 
 🌞 **Write-up de l'épreuve**
 
-### Pour ce chall, on nous présente un serveur qui va récupérer le contenu de l’URL qu’on lui envoie et nous l'afficher. On nous donne aussi le [code source](code_source.py) de la page.
+### Pour ce chall, on nous présente un serveur qui va récupérer le contenu de l’URL qu’on lui envoie et nous l'afficher. On nous donne aussi le [code source](code_source_dns.py) de la page.
 
 En lisant le code source, et en consultant la page web, nous avons plusieurs indices sur ce qu'il faut faire. 
 
@@ -37,8 +37,72 @@ Nous savons aussi que la page web ne peut pas afficher des pages locales.
 
 🌞 **Write-up de l'épreuve**
 
+### Le but de ce chall est de retrouver une faille dans les règles du pare-feu du serveur web.
+
+#### En lançant le challenge on se rend compte qu’il y a un tout petit message en bas à droite qui nous permet de télécharger [les règles du pare-feu](fw.sh)
+
+On retrouve deux lignes assez intéressantes:
+
+```
+IP46T -A INPUT-HTTP -m limit --limit 3/sec --limit-burst 20 -j DROP
+IP46T -A INPUT-HTTP -j ACCEPT
+```
+J'ai trouvé une explication pour cette option `limit-burst`:
+
+On définit une règle avec les paramètres -m limit --limit 5/second --limit-burst 10/second. Le paramètre limit-burst du seau à jetons est fixé initialement à 10. Chaque paquet qui établit une correspondance avec la règle consomme un jeton.
+
+
+On reçoit alors des paquets qui correspondent à la règle, 1-2-3-4-5-6-7-8-9-10, tous arrivent dans un intervalle de 1/1000ème de seconde.
+Le seau de jetons se retrouve complètement vide. 
+
+Et puisque le seau est vide, les paquets qui rencontrent la règle ne peuvent plus correspondre et poursuivent leur route `vers la règle suivante.`
+
+On voit donc que lorsque le nombre de requêtes dépasse 20, la 21 passera à la règle suivant, et donc sera accepté.
+
+On va donc essayer d'envoyer 20 requêtes au serveur, avant d'envoyer une dernière pour récupérer le flag.
+
+```
+$ for i in {1..20}; do echo | nc challenge01.root-me.org 54017 & done ; curl -i http://challenge01.root-me.org:54017/
+
+...
+HTTP/1.1 200 OK
+content-type: text/plain
+connection: close
+Date: Sun, 14 Jan 2024 14:22:28 GMT
+Transfer-Encoding: chunked
+
+
+Nicely done:)
+
+There are probably a few things the administrator was missing when writing this ruleset:
+
+    1) When a rule does not match, the next one is tested against
+
+    2) When jumped in a user defined chain, if there is no match, then the
+       search resumes at the next rule in the previous (calling) chain
+
+    3) The 'limit' match is used to limit the rate at which a given rule can
+       match: above this limit, 1) applies
+
+    4) When a rule with a 'terminating' target (e.g.: ACCEPT, DROP...) matches
+       a packet, then the search stops: the packet won't be tested against any
+       other rules
+    
+
+The flag is: saperlipopete
+```
+
 🌞 **Proposer un jeu de règles firewall**
 
+```
+IP46T -A INPUT-HTTP -m limit --limit 3/sec --limit-burst 20 -j LOG --log-prefix 'FW_FLOODER '
+
+IP46T -A INPUT-HTTP -m limit --limit 3/sec --limit-burst 20 -j DROP
+
+IP46T -A INPUT-HTTP -j DROP
+```
+
+On pourrais simplement drop les paquets qui dépassent la limite des 20.
 
 ## III. ARP Spoofing Ecoute active
 
